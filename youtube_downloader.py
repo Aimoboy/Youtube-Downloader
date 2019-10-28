@@ -1,19 +1,31 @@
-import pytube
 import subprocess
 import os
+
+def import_modules():
+    success = True
+    try:
+        import pytube
+    except:
+        success = False
+        print("You need to download the pytube module.")
+    return success
 
 def get_input():
     print("Enter the YouTube urls (type \"help\" for a tutorial):")
     lst = []
     while True:
-        s = input()
+        #print("> ", end="")
+        s = input("> ")
         if s.lower() == "done":
             break
+        elif s.lower() == "exit":
+            return
         elif s.lower() == "edit":
             edit_input(lst)
         elif s.lower() == "help":
             print("- Enter the YouTube urls of the videos you want to download separated by new lines.")
             print("- Type \"done\" when you are finished entering urls and want to start downloading.")
+            print("- Type \"exit\" to exit the program.")
         lst.append(s)
     return lst
 
@@ -22,8 +34,10 @@ def print_lst_with_numbers(lst):
         print("{0}: {1}".format(i + 1, lst[i]))
 
 def edit_input(lst):
+    print("\nCurrent input:")
     print_lst_with_numbers(lst)
     while True:
+        s = input("> ")
         return
 
 
@@ -76,7 +90,16 @@ def download_list_of_urls(lst):
     return fails
 
 if __name__ == "__main__":
-    lst = get_input()
-    #print(lst)
-    fails = download_list_of_urls(lst)
-    print("Fails: {0}".format(fails))
+    if import_modules():
+        lst = get_input()
+        print(lst)
+    #fails = download_list_of_urls(lst)
+    #print("Fails: {0}".format(fails))
+
+
+'''
+Add shutdown after option
+Add regex to edit input
+Add mp3 support
+'''
+
